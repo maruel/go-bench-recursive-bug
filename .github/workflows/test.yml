@@ -7,13 +7,16 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
+        gover: ["1.15.6"]
     runs-on: "${{matrix.os}}"
-    name: "go on ${{matrix.os}}"
+    name: "go${{gover}} on ${{matrix.os}}"
     steps:
     - uses: actions/setup-go@v2
       with:
-        go-version: "^1.15.0"
+        go-version: "${{gover}}"
     - uses: actions/checkout@v2
+    - name: 'go env'
+      run: go env
     - name: 'Check: go test ./...'
       run: go test ./...
     - name: 'Check: go test -bench=. ./...'
