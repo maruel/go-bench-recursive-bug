@@ -1,7 +1,3 @@
-# Copyright 2020 Marc-Antoine Ruel. All rights reserved.
-# Use of this source code is governed under the Apache License, Version 2.0
-# that can be found in the LICENSE file.
-
 on: [push, pull_request]
 name: Run tests
 jobs:
@@ -15,9 +11,10 @@ jobs:
     name: "go on ${{matrix.os}}"
     steps:
     - uses: actions/setup-go@v2
-      # A version must be specified. Ask for the latest.
       with:
         go-version: "^1.15.0"
     - uses: actions/checkout@v2
-    - name: 'Check: go test -bench=.'
-      run: go test -timeout=40s -bench=. -benchtime=100ms -cpu=1 ./...
+    - name: 'Check: go test ./...'
+      run: go test ./...
+    - name: 'Check: go test -bench=. ./...'
+      run: go test -bench=. ./...
