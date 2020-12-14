@@ -15,8 +15,42 @@ jobs:
       with:
         go-version: "${{matrix.gover}}"
     - uses: actions/checkout@v2
+
     - name: 'go env'
       run: go env
+
+    - name: "Debug (posix)"
+      if: always() && matrix.os != 'windows-latest'
+      run: |
+        echo HOME = $HOME
+        echo GITHUB_WORKSPACE = $GITHUB_WORKSPACE
+        echo PATH = $PATH
+        echo ""
+        echo pwd = $(pwd)
+        echo $ ls -la
+        ls -la
+        echo ""
+        echo $ ls -la $HOME
+        ls -la $HOME
+        echo ""
+        echo $ ls -la $HOME/go
+        ls -la $HOME/go
+        echo ""
+        echo $ ls -la $HOME/go/bin
+        ls -la $HOME/go/bin
+    - name: "Debug (windows)"
+      if: always() && matrix.os == 'windows-latest'
+      shell: cmd
+      run: |
+        echo USERPROFILE = %USERPROFILE%
+        echo GITHUB_WORKSPACE = %GITHUB_WORKSPACE%
+        echo PATH = %PATH%
+        echo cd = %CD%
+        dir /a
+        dir /a %USERPROFILE%
+        dir /a %USERPROFILE%\go
+        dir /a %USERPROFILE%\go\bin
+
     - name: 'Check: go test ./...'
       run: go test ./...
     - name: 'Check: go test -bench=. ./...'
