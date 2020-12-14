@@ -55,6 +55,6 @@ jobs:
       run: go test ./...
     - name: 'Check: go test -bench=. ./...'
       run: go test -bench=. ./...
-    - name: 'Check: go test -bench=. .\\...'
+    - name: 'Check: go test -bench=. .\...'
       if: always() && matrix.os == 'windows-latest'
-      run: 'go test -bench=. .\\...'
+      run: 'go test -bench=. .\...'
